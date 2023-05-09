@@ -1,0 +1,33 @@
+[{
+  "_id": {
+    "$oid": "64331c77a2ca368ffb4fb753"
+  },
+  "numberOS": "002",
+  "name": "tufao",
+  "telefone": "22999999999",
+  "cpf": "123446844",
+  "model": "iphone 12",
+  "repair": "tela",
+  "value": 1200,
+  "guarantee": "3 meses",
+  "createdAt": {
+    "$date": "2023-04-09T20:13:43.439Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64331dc16571928c27f22ab8"
+  },
+  "numberOS": "003",
+  "name": "Felipe",
+  "telefone": "22999999999",
+  "cpf": "123446844",
+  "model": "iphone xr",
+  "repair": "tela",
+  "value": 700,
+  "guarantee": "6 meses",
+  "createdAt": {
+    "$date": "2023-04-18T02:57:31.175Z"
+  },
+  "__v": 0
+}]
