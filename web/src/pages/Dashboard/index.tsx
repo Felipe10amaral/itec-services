@@ -34,7 +34,7 @@ const Dashboard: React.FC = () => {
 
   const handleSubmit = useCallback(async(data: CreateOS) => {
     try {
-      console.log(token)
+    
       const schema = Yup.object().shape({
         numberOS: Yup.number().required('numero da os obrigatorio'),
         name: Yup.string().required('Nome obrigatório'),
@@ -54,7 +54,7 @@ const Dashboard: React.FC = () => {
     await api.post('order',  data);
     history.push('/dashboard', {
        headers: {
-        'Authorization': `Basic ${token}`
+        'Authorization': `Bearer ${token}`
        }
     } )
     

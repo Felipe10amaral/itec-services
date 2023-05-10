@@ -1,12 +1,12 @@
 import { Form } from '@unform/web';
-import { Container, HeaderProps, HeaderContent, Profile, Content } from './styles';
+import { Container, HeaderProps, HeaderContent, Profile, Content, UL, LI } from './styles';
 import { MdOutlineDocumentScanner } from 'react-icons/md';
 import { FormHandles } from '@unform/core';
 import Logo from '../../assets/logo.svg'
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { AiOutlineFieldNumber } from 'react-icons/ai';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import api from '../../services/api';
 import * as Yup from 'yup'
 
@@ -15,43 +15,25 @@ interface OsProps {
   cpf: number 
 }
 
-interface ResponseOsProps {
-  numberOs: string;
-  name: string;
-  model: string;
-  value: number;
+interface Props {
+  cpf: string;
+  createdAt: string;
   guarantee: string;
+  model: string;
+  name: string;
+  numberOS: string;
+  repair: string;
+  telefone: string;
+  value: number;
+  __v?: number;
+  _id?: string;
+
 }
 
 export function ListOneOrder() {
   const formRef = useRef<FormHandles>(null)
+  const [os, setOs] = useState<Props>()
 
-//   const handleSubmit = useCallback(async (data: OsProps) => {
-//     try {
-        
-//         const schema = Yup.object().shape({
-//             numberOs: Yup.number().required('Nome obrigatório'),
-//             cpf: Yup.number().required('E-mail obrigatório'),
-//         })
-
-//         await schema.validate(data, {
-//             abortEarly: false
-//         })
-
-//         console.log(data.numberOs)
-
-//         const response = await api.get(`order/${data.numberOs}`);
-//         //console.log(response.data)
-//         const datas = response.data
-//         setOs(datas)
-//         console.log(os)
-//         //history.push('/dashboard')
-        
-//     } catch (error) {
-        
-       
-//     }
-// }, [os])
 
 async function handleSubmit(data: OsProps) {
   const schema = Yup.object().shape({
@@ -65,12 +47,13 @@ async function handleSubmit(data: OsProps) {
     
             const response = await api.get(`order/${data.numberOs}`);
             const datas = response.data
-           
+            setOs(datas)
             alter(datas)
 }
 
   function alter(data: OsProps) {
     console.log(data)
+    console.log(os)
   }
 
 
@@ -96,7 +79,23 @@ async function handleSubmit(data: OsProps) {
             <Input name="cpf" icon={MdOutlineDocumentScanner} placeholder='CPF'/>
             <Button type='submit' >Acessar</Button>
           </Form>
+
+          {
+          <UL className='UL'>
+            <LI >Número da OS: {os?.numberOS}</LI>
+            <LI >Nome: {os?.name}</LI>
+            <LI >Telefone: {os?.telefone}</LI>
+            <LI >Modelo: {os?.model}</LI>
+            <LI >Defeito: {os?.repair}</LI>
+            <LI >Valor: {os?.value}</LI>
+            <LI >Garantia: {os?.guarantee}</LI>
+          </UL>
+        }
         </Content>
+
+       
+
+        
         
         
     </Container>  

@@ -70,6 +70,7 @@ class UsersServices {
       const token = sign({ email: user.password, _id: user._id }, secretJWT, {
         expiresIn: '1h',
       })
+      console.log(token)
 
       const username = user.username
 

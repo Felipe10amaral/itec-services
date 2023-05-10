@@ -1,6 +1,29 @@
 import styled from 'styled-components';
 import { shade } from 'polished'
 
+export const UL = styled.ul`
+  list-style: none;
+  color: #41fca3;
+  
+`
+
+export const LI = styled.li`
+   background: #232129;
+   width: 100%;
+   padding: 5px;
+   color: #41fca3;
+   
+
+  margin-top: 5px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #d4d7d6;
+
+  
+`
+
+
 export const Container = styled.div``
 
 export const HeaderProps = styled.header`
@@ -54,8 +77,8 @@ export const Profile = styled.div`
 
 export const Content = styled.div`
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
 
     width: 100%;
