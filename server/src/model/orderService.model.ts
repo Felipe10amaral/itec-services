@@ -6,8 +6,11 @@ export interface IOrderService {
   telefone: string
   cpf: string
   model: string
+  password: string
   repair: string
   value: number
+  status: string
+  exitDate: string
   guarantee: string
   createdAt: Date
 }
@@ -34,12 +37,24 @@ export const OrderServiceSchema = new Schema<IOrderService>({
     type: String,
   },
 
+  password: {
+    type: String
+  },
+
   repair: {
     type: String,
   },
 
   value: {
     type: Number,
+  },
+
+  status: {
+    type: String
+  },
+
+  exitDate: {
+    type: String
   },
 
   guarantee: {

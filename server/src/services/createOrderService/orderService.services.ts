@@ -12,8 +12,11 @@ function validatedCreated(orderService: object) {
     telefone: z.string(),
     cpf: z.string(),
     model: z.string(),
+    password: z.string(),
     repair: z.string(),
     value: z.coerce.number(),
+    status: z.string(),
+    exitDate: z.string(),
     guarantee: z.string(),
     createdAt: z.date().default(new Date()),
   })
@@ -47,18 +50,6 @@ class OrderServiceServices {
       throw new OrderServiceNotFound()
     }
 
-    const response = [
-      { nome: os.name },
-      { OS: os.numberOS },
-      { telefone: os.telefone },
-      { cepf: os.cpf },
-      { modelo: os.model },
-      { repair: os.repair },
-      { value: os.value },
-      { garantia: os.guarantee },
-    ]
-
-    console.log(response)
 
     return os
   }

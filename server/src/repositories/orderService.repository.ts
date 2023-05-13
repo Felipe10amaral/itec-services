@@ -1,16 +1,5 @@
 import { IOrderService, OrderService } from '../model/orderService.model'
 
-// interface Props extends Document {
-//   numberOS: string
-//   name: string
-//   telefone: string
-//   cpf: string
-//   model: string
-//   repair: string
-//   value: number
-//   guarantee: string
-//   createdAt?: string
-// }
 
 class OrderServiceRepository {
   async create(orderService: IOrderService) {
