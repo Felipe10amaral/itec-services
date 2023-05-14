@@ -52,8 +52,14 @@ async function handleSubmit(data: OsProps) {
       
     const response = await api.get(`order/${data.numberOs}`);
     const datas = response.data
-    setOs(datas)
-    alter(datas)
+
+    if(datas.cpf !== data.cpf) {
+      window.alert("CPF não encontrado na base de dados")
+      
+    }
+    else {
+      setOs(datas)
+    }  
 
   } catch (err: any) {
     const errors = getValidationError(err)
@@ -61,12 +67,6 @@ async function handleSubmit(data: OsProps) {
     formRef.current?.setErrors(errors)
   }
 }
-
-  function alter(data: OsProps) {
-    console.log(data)
-    console.log(os)
-  }
-
 
   return (
     <Container>
