@@ -10,6 +10,8 @@ import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { Link, useHistory } from 'react-router-dom';
 import api from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
+import { getValidationError } from '../../utils/GetValidationErrors';
 
 
 interface SignUpProps {
@@ -22,32 +24,41 @@ interface SignUpProps {
 const SignUp: React.FC = () => {
     const formRef = useRef<FormHandles>(null)
     
+    const {token} = useAuth()
     
     const history = useHistory()
 
     
     const handleSubmit = useCallback(async (data: SignUpProps) => {
         try {
-            
+            formRef.current?.setErrors({})
             const schema = Yup.object().shape({
                 name: Yup.string().required('Nome obrigatório'),
                 email: Yup.string().required('E-mail obrigatório').email(),
                 username: Yup.string().required('username obrigatório'),
-                password: Yup.string().min(6, 'No mínimo 6 dígitos')
+                password: Yup.string().min(6, 'a senha deve possuir no mínimo 6 dígitos')
             })
 
             await schema.validate(data, {
                 abortEarly: false
             })
 
-            await api.post('users', data, );
+           
+            await api.post('users', data, {
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            } );
             history.push('/dashboard')
             
-        } catch (error) {
+        } catch (err: any) {
             
+            const errors = getValidationError(err)
+
+            formRef.current?.setErrors(errors)
            
         }
-    }, [history])
+    }, [history, token])
     return (
         <Container>
         <Content>

@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react';
 import { Form } from '@unform/web';
 import { Container, HeaderProps, HeaderContent, Profile, Content, UL, LI } from './styles';
 import { MdOutlineDocumentScanner } from 'react-icons/md';
@@ -6,9 +7,9 @@ import Logo from '../../assets/logo.svg'
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { AiOutlineFieldNumber } from 'react-icons/ai';
-import { useRef, useState } from 'react';
 import api from '../../services/api';
 import * as Yup from 'yup'
+import { getValidationError } from '../../utils/GetValidationErrors';
 
 interface OsProps {
   numberOs: number
@@ -21,9 +22,11 @@ interface Props {
   guarantee: string;
   model: string;
   name: string;
+  password:string;
   numberOS: string;
   repair: string;
   telefone: string;
+  exitDate: string;
   value: number;
   __v?: number;
   _id?: string;
@@ -36,19 +39,27 @@ export function ListOneOrder() {
 
 
 async function handleSubmit(data: OsProps) {
-  const schema = Yup.object().shape({
-                numberOs: Yup.number().required('Nome obrigatório'),
-                cpf: Yup.number().required('E-mail obrigatório'),
-            })
-    
-            await schema.validate(data, {
-                abortEarly: false
-            })
-    
-            const response = await api.get(`order/${data.numberOs}`);
-            const datas = response.data
-            setOs(datas)
-            alter(datas)
+  try {
+    formRef.current?.setErrors({})
+    const schema = Yup.object().shape({
+      numberOs: Yup.string().required('É necessário informar o número da ordem de serviço'),
+      cpf: Yup.string().required('CPF é obrigatório'),
+    })
+      
+    await schema.validate(data, {
+      abortEarly: false
+    })
+      
+    const response = await api.get(`order/${data.numberOs}`);
+    const datas = response.data
+    setOs(datas)
+    alter(datas)
+
+  } catch (err: any) {
+    const errors = getValidationError(err)
+
+    formRef.current?.setErrors(errors)
+  }
 }
 
   function alter(data: OsProps) {
@@ -87,7 +98,9 @@ async function handleSubmit(data: OsProps) {
             <LI >Telefone: {os?.telefone}</LI>
             <LI >Modelo: {os?.model}</LI>
             <LI >Defeito: {os?.repair}</LI>
+            
             <LI >Valor: {os?.value}</LI>
+            <LI >Data de saída: {os?.exitDate}</LI>
             <LI >Garantia: {os?.guarantee}</LI>
           </UL>
         }

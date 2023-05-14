@@ -1,13 +1,15 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import {FiLogIn, FiMail, FiLock} from 'react-icons/fi'
 import {Container, Content} from './styles'
-
+import { Form } from '@unform/web';
+import { FormHandles } from '@unform/core';
 import Logo from '../../assets/logo.svg'
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import {useAuth} from '../../context/AuthContext';
-import { Form } from '@unform/web';
 import { Link, useHistory } from 'react-router-dom';
+import * as Yup from 'yup'
+import { getValidationError } from '../../utils/GetValidationErrors';
 
 
 interface SignInFormData {
@@ -17,21 +19,35 @@ interface SignInFormData {
   
 
 const SignIn: React.FC = () => {
+    const formRef = useRef<FormHandles>(null)
     const history = useHistory()
     const {signIn} = useAuth()
 
     const handleSubmit = useCallback(async(data: SignInFormData) => {
         try {
+            formRef.current?.setErrors({})
+
+            const schema = Yup.object().shape({
+                
+                email: Yup.string().required('E-mail obrigatório').email(),
+                password: Yup.string().required('Senha obrigatória')
+            })
+
+            await schema.validate(data, {
+                abortEarly: false
+            })
+
             await signIn({
                 email: data.email,
                 password: data.password
             })
 
             history.push('/dashboard')
-        } catch (error) {
-            console.log("erro no login")
-        }
+        } catch (err: any) {
+            const errors = getValidationError(err)
 
+            formRef.current?.setErrors(errors)
+        }
 
     },[signIn, history]
     
@@ -43,7 +59,7 @@ const SignIn: React.FC = () => {
             <Content>
                 <img src={Logo} alt="itec" />
 
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit} ref={formRef}>
                     <h1>Faça seu login</h1>
 
                     <Input name="email" icon={FiMail} placeholder='E-mail'/>

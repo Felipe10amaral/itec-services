@@ -7,6 +7,7 @@ import Dashboard from '../pages/Dashboard'
 import Route from './Router'
 import { ListOrder } from '../pages/ListOrder'
 import {ListOneOrder} from '../pages/ListOneOrder'
+import EditOrder from '../pages/EditOrder'
 
 export function Routers() {
     return (
@@ -16,6 +17,7 @@ export function Routers() {
             <Route path='/dashboard' component={Dashboard} isPrivate />
             <Route path='/listOrder' component={ListOrder} isPrivate />
             <Route path='/listOneOrder' component={ListOneOrder} />
+            <Route path='/editOrder' component={EditOrder} isPrivate />
         </Switch>
     )
 }

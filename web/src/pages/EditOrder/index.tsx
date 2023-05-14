@@ -1,7 +1,7 @@
 import React, { useCallback, useRef } from 'react'
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup'
-import { Container, Content, Nav } from './styles'
+import { Container, Content } from './styles'
 import {Header} from '../../components/Header/index'
 import { useAuth } from '../../context/AuthContext'
 import { Form } from '@unform/web'
@@ -18,7 +18,7 @@ import { getValidationError } from '../../utils/GetValidationErrors';
 
 
 interface CreateOS {
-  numberOs: number;
+  numberOS: number;
   name: string;
   telefone: number;
   cpf: string;
@@ -32,7 +32,7 @@ interface CreateOS {
 }
 
 
-const Dashboard: React.FC = () => {
+const EditOrder: React.FC = () => {
   const formRef = useRef<FormHandles>(null)
   const history = useHistory()
   const {token} = useAuth()
@@ -40,15 +40,15 @@ const Dashboard: React.FC = () => {
   const handleSubmit = useCallback(async(data: CreateOS) => {
     try {
       formRef.current?.setErrors({})
-    
+
       const schema = Yup.object().shape({
-        numberOS: Yup.string().required('informe o numero da ordem de serviço'),
-        name: Yup.string().required('informe o nome do cliente'),
-        telefone: Yup.string().required('informe o número do cliente'),
-        cpf: Yup.string().required('informe o cpf do cliente'),
-        model: Yup.string().required('informe o modelo do aparelho'),
+        numberOS: Yup.string().required('numero da os obrigatorio'),
+        name: Yup.string().required('Nome obrigatório'),
+        telefone: Yup.string().required('telefone obrigatório'),
+        cpf: Yup.string().required('cpf obrigatório'),
+        model: Yup.string().required('modelo obrigatorio'),
         password: Yup.string(),
-        repair: Yup.string().required('informe o defeito do aparelho'),
+        repair: Yup.string().required('defeito obrigatorio'),
         value: Yup.string(),
         status: Yup.string(),
         exitDate: Yup.string(),
@@ -60,12 +60,15 @@ const Dashboard: React.FC = () => {
         abortEarly: false
     })
     
-    await api.post('order',  data, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    history.push('/dashboard')
+    const os = await api.get(`order/${data.numberOS}`)
+    console.log(os.data)
+
+    // await api.post('order',  data, {
+    //   headers: {
+    //     'Authorization': `Bearer ${token}`
+    //   }
+    // });
+   // history.push('/dashboard')
     
     } catch (err: any) {
       const errors = getValidationError(err)
@@ -80,7 +83,7 @@ const Dashboard: React.FC = () => {
           <Container>
             <Content>
              <Form ref={formRef} onSubmit={handleSubmit}>
-                <h1> Cadastrar Ordem de Serviço </h1>
+                <h1> Editar Ordem de Serviço </h1>
                 <Input name="numberOS" icon={AiOutlineFieldNumber} placeholder='Número OS'/>
                 <Input name="name" icon={FiUser} placeholder='Nome'/>
                 <Input name="telefone" icon={BsTelephoneOutbound} placeholder='Telefone'/>
@@ -93,18 +96,10 @@ const Dashboard: React.FC = () => {
                 <Input name="exitDate" icon={BiCalendarCheck} placeholder='Data de saída'/>
                 <Input name="guarantee" icon={FiFileText} placeholder='Garantia'/>
 
-                <Button type='submit'>Cadastrar</Button>
+                <Button type='submit'>Editar</Button>
               </Form>
             </Content>
-            <Nav>
-              <ul>
-                <li> <Link className='link' to='signup'> Cadastrar usuário </Link></li>
-                <li> <Link className='link' to='/'> Editar usuário </Link> </li>
-                <li> <Link className='link' to='/editOrder'> Editar uma ordem de serviço </Link> </li>
-                <li> <Link className='link' to='/ListOrder' > Listar uma ordem de serviço </Link> </li>
-                <li> <Link className='link' to='/'> Editar ordem de serviço </Link></li>
-              </ul>
-             </Nav>
+            
             
         </Container>
           
@@ -113,4 +108,4 @@ const Dashboard: React.FC = () => {
     )
 }
 
-export default Dashboard
+export default EditOrder
