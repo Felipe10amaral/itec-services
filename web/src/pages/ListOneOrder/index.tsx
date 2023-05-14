@@ -93,15 +93,14 @@ async function handleSubmit(data: OsProps) {
 
           {
           <UL className='UL'>
-            <LI >Número da OS: {os?.numberOS}</LI>
-            <LI >Nome: {os?.name}</LI>
-            <LI >Telefone: {os?.telefone}</LI>
-            <LI >Modelo: {os?.model}</LI>
-            <LI >Defeito: {os?.repair}</LI>
-            
-            <LI >Valor: {os?.value}</LI>
-            <LI >Data de saída: {os?.exitDate}</LI>
-            <LI >Garantia: {os?.guarantee}</LI>
+            <LI >Número da OS: <span> {os?.numberOS} </span></LI>
+            <LI >Nome: <span> {os?.name} </span></LI>
+            <LI >Telefone: <span> {os?.telefone} </span> </LI>
+            <LI >Modelo: <span> {os?.model} </span> </LI>
+            <LI >Defeito: <span> {os?.repair} </span> </LI>  
+            <LI >Valor: <span> {os?.value} </span></LI>
+            <LI >Data de saída: <span>{os?.exitDate}</span></LI>
+            <LI >Garantia: <span>{os?.guarantee}</span></LI>
           </UL>
         }
         </Content>

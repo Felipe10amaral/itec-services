@@ -20,6 +20,9 @@ export const LI = styled.li`
   font-weight: bold;
   color: #d4d7d6;
 
+  span {
+    color: #bb2121;
+  }
   
 `
 
