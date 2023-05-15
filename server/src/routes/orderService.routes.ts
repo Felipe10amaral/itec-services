@@ -25,6 +25,17 @@ orderServicesRouter.get('/:numberOS', async (req: Request, res: Response) => {
   }
 })
 
+orderServicesRouter.get('/cpf/:cpf', async (req: Request, res: Response) => {
+  const { cpf } = req.params
+
+  try {
+    const os = await orderServices.getCpf(cpf)
+    return res.status(200).send(os)
+  } catch (error: any) {
+    return res.status(400).send({ message: error.message })
+  }
+})
+
 orderServicesRouter.post(
   '/',
   authorizationMiddleware,

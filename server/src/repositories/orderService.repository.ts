@@ -1,6 +1,5 @@
 import { IOrderService, OrderService } from '../model/orderService.model'
 
-
 class OrderServiceRepository {
   async create(orderService: IOrderService) {
     const os = await OrderService.create(orderService)
@@ -14,6 +13,10 @@ class OrderServiceRepository {
 
   async getByOneOrder(numberOS: string) {
     return await OrderService.findOne({ numberOS })
+  }
+
+  async getByCpf(cpf: string) {
+    return await OrderService.find({ cpf })
   }
 
   async update(numberOS: string, orderService: Partial<IOrderService>) {

@@ -4,6 +4,7 @@ import orderServiceRepository from '../../repositories/orderService.repository'
 
 import { OrderServiceAlreadyExists } from '../../errors/orderServices/orderServicesAlreadyExists.error'
 import { OrderServiceNotFound } from '../../errors/orderServices/orderServiceNotFound.error'
+import { CpfNotFound } from '../../errors/orderServices/cpfNotFound.error'
 
 function validatedCreated(orderService: object) {
   const registerSchema = z.object({
@@ -50,7 +51,6 @@ class OrderServiceServices {
       throw new OrderServiceNotFound()
     }
 
-
     return os
   }
 
@@ -58,6 +58,15 @@ class OrderServiceServices {
     const response = await orderServiceRepository.getAll()
     if (!response) {
       throw new OrderServiceNotFound()
+    }
+
+    return response
+  }
+
+  async getCpf(cpf: string) {
+    const response = await orderServiceRepository.getByCpf(cpf)
+    if (!response) {
+      throw new CpfNotFound()
     }
 
     return response
