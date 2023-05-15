@@ -103,6 +103,7 @@ const Dashboard: React.FC = () => {
                 <li> <Link className='link' to='/editOrder'> Editar uma ordem de serviço </Link> </li>
                 <li> <Link className='link' to='/ListOrder' > Listar uma ordem de serviço </Link> </li>
                 <li> <Link className='link' to='/'> Editar ordem de serviço </Link></li>
+                <li> <Link className='link' to='/listAll'> Listar ordem de serviço pelo cpf do cliente</Link></li>
               </ul>
              </Nav>
             

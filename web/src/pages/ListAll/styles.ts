@@ -4,7 +4,7 @@ import { shade } from 'polished'
 export const UL = styled.ul`
   list-style: none;
   color: #41fca3;
-  margin-left: 10rem;
+  display: inline;
 `
 
 export const LI = styled.li`
@@ -80,8 +80,9 @@ export const Profile = styled.div`
 
 export const Content = styled.div`
     display: flex;
-    justify-content: space-between;
-    margin-left: 5rem;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
 
     width: 100%;
     max-width: 700px;
