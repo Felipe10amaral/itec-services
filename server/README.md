@@ -1,5 +1,5 @@
 # App
-<img src="./assets/mjv.png">
+
 
 E-Order Service: It is an application that controls service orders for cell phone technical assistance, making it easier for employees and customers to use.
 

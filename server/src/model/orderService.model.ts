@@ -38,7 +38,7 @@ export const OrderServiceSchema = new Schema<IOrderService>({
   },
 
   password: {
-    type: String
+    type: String,
   },
 
   repair: {
@@ -50,11 +50,11 @@ export const OrderServiceSchema = new Schema<IOrderService>({
   },
 
   status: {
-    type: String
+    type: String,
   },
 
   exitDate: {
-    type: String
+    type: String,
   },
 
   guarantee: {

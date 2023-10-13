@@ -33,8 +33,11 @@ function validatedUpdated(orderService: Partial<IOrderService>) {
     telefone: z.string(),
     cpf: z.string(),
     model: z.string(),
+    password: z.string(),
     repair: z.string(),
     value: z.coerce.number(),
+    status: z.string(),
+    exitDate: z.string(),
     guarantee: z.string(),
     createdAt: z.date().default(new Date()),
   })
