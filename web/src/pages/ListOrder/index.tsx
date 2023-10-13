@@ -25,6 +25,7 @@ interface Props {
   password:string;
   numberOS: string;
   repair: string;
+  status: string;
   telefone: string;
   exitDate: string;
   value: number;
@@ -100,11 +101,12 @@ async function handleSubmit(data: OsProps) {
 
           {
           <UL className='UL'>
-          <LI >Número da OS: <span> {os?.numberOS} </span></LI>
+          <LI >Número da OS: <span> {os?.numberOS} </span> </LI>
           <LI >Nome: <span> {os?.name} </span></LI>
           <LI >Telefone: <span> {os?.telefone} </span> </LI>
           <LI >Modelo: <span> {os?.model} </span> </LI>
-          <LI >Defeito: <span> {os?.repair} </span> </LI>  
+          <LI >Defeito: <span> {os?.repair} </span> </LI>
+          <LI >Status: <span> {os?.status} </span> </LI>  
           <LI >Valor: <span> {os?.value} </span></LI>
           <LI >Data de saída: <span>{os?.exitDate}</span></LI>
           <LI >Garantia: <span>{os?.guarantee}</span></LI>

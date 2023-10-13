@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup'
 import { Container, Content } from './styles'
@@ -18,18 +18,23 @@ import { getValidationError } from '../../utils/GetValidationErrors';
 
 
 interface CreateOS {
-  numberOS: number;
+  numberOS: string;
   name: string;
-  telefone: number;
+  telefone: string;
   cpf: string;
   model: string;
   password?: string;
   repair: string;
-  value?: number;
+  value?: number | string;
   status?: string;
   exitDate?: string;
   guarantee?: string;
 }
+
+interface props {
+  numberOS: string
+}
+
 
 
 const EditOrder: React.FC = () => {
@@ -37,8 +42,43 @@ const EditOrder: React.FC = () => {
   const history = useHistory()
   const {token} = useAuth()
 
+  const [formData, setFormData] = useState<CreateOS>({
+    numberOS: '',
+    name: '',
+    telefone: '',
+    cpf: '',
+    model: '',
+    password: '',
+    repair: '',
+    value: '',
+    status: '',
+    exitDate: '',
+    guarantee: '',
+  });
+
+  const handleGetOrder = useCallback(async(data: props) => {
+    const osFormatted = Yup.object().shape({
+      numberOS: Yup.string().required('numero da os obrigatorio'),
+    })
+    
+    await osFormatted.validate(data, {
+      abortEarly: false
+  })
+
+    const response = await api.get(`order/${data.numberOS}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    setFormData(response.data)
+
+  },[token])
+
+  
+
   const handleSubmit = useCallback(async(data: CreateOS) => {
-    try {
+    
       formRef.current?.setErrors({})
 
       const schema = Yup.object().shape({
@@ -49,52 +89,61 @@ const EditOrder: React.FC = () => {
         model: Yup.string().required('modelo obrigatorio'),
         password: Yup.string(),
         repair: Yup.string().required('defeito obrigatorio'),
-        value: Yup.string(),
+        value: Yup.number(),
         status: Yup.string(),
         exitDate: Yup.string(),
-        guarantee: Yup.string()
-        
+        guarantee: Yup.string()      
     })
 
     await schema.validate(data, {
         abortEarly: false
     })
-    
-    const os = await api.get(`order/${data.numberOS}`)
-    console.log(os.data)
 
-    // await api.post('order',  data, {
-    //   headers: {
-    //     'Authorization': `Bearer ${token}`
-    //   }
-    // });
-   // history.push('/dashboard')
+    const params = data.numberOS
+    console.log(data.status)
     
-    } catch (err: any) {
-      const errors = getValidationError(err)
+    try {
+      await api.put(`order/${params}`, data ,{
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
 
-      formRef.current?.setErrors(errors)
-    }
+      window.alert("Ordem de serviço alterada com sucesso")
+      
+    } catch (error) {
+      console.error(error)
+      window.alert("Ordem de serviço não alterada")
+      
+    }    
   },[history, token])
+
     const {username} = useAuth()
     return (
       <>
         <Header username={username}/>
           <Container>
+
+            <Form onSubmit={handleGetOrder}>
+              
+                <Input name="numberOS" icon={AiOutlineFieldNumber} placeholder='Número OS'/>
+                <Button type='submit'> Buscar </Button>
+              
+            </Form>
             <Content>
              <Form ref={formRef} onSubmit={handleSubmit}>
                 <h1> Editar Ordem de Serviço </h1>
-                <Input name="numberOS" icon={AiOutlineFieldNumber} placeholder='Número OS'/>
-                <Input name="name" icon={FiUser} placeholder='Nome'/>
-                <Input name="telefone" icon={BsTelephoneOutbound} placeholder='Telefone'/>
-                <Input name="cpf" icon={MdOutlineDocumentScanner} placeholder='CPF'/>
-                <Input name="model" icon={BsPhone} placeholder='Modelo'/>
-                <Input name="password" icon={BsFillLockFill} placeholder='Senha do cliente'/>
-                <Input name="repair" icon={FiTool} placeholder='Defeito'/>
-                <Input name="value" icon={FiDollarSign} placeholder='Valor'/>
-                <Input name="status" icon={BsHourglassBottom} placeholder='Status do reparo'/>
-                <Input name="exitDate" icon={BiCalendarCheck} placeholder='Data de saída'/>
-                <Input name="guarantee" icon={FiFileText} placeholder='Garantia'/>
+                <Input name="numberOS" icon={AiOutlineFieldNumber} defaultValue={formData.numberOS} placeholder='Número OS'/>
+                <Input name="name" icon={FiUser} placeholder='Nome' defaultValue={formData.name}/>
+                <Input name="telefone" icon={BsTelephoneOutbound} defaultValue={formData.telefone} placeholder='Telefone'/>
+                <Input name="cpf" icon={MdOutlineDocumentScanner} defaultValue={formData.cpf} placeholder='CPF'/>
+                <Input name="model" icon={BsPhone} defaultValue={formData.name} placeholder='Modelo'/>
+                <Input name="password" icon={BsFillLockFill} defaultValue={formData.password} placeholder='Senha do cliente'/>
+                <Input name="repair" icon={FiTool} defaultValue={formData.repair} placeholder='Defeito'/>
+                <Input name="value" icon={FiDollarSign} defaultValue={formData.value} placeholder='Valor'/>
+                <Input name="status" icon={BsHourglassBottom} defaultValue={formData.status} placeholder='Status do reparo'/>
+                <Input name="exitDate" icon={BiCalendarCheck} defaultValue={formData.exitDate} placeholder='Data de saída'/>
+                <Input name="guarantee" icon={FiFileText} defaultValue={formData.guarantee} placeholder='Garantia'/>
 
                 <Button type='submit'>Editar</Button>
               </Form>

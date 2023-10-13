@@ -7,10 +7,10 @@ export const Container = styled.div`
    justify-content: space-around;
    align-items: center;
    flex-direction: row;
-   
-   
     
 `
+
+
 
 export const Content = styled.div`
   
@@ -120,3 +120,4 @@ export const Nav = styled.div`
     color: #bb2121;
   }
 `
+

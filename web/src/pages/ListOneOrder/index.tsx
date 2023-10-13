@@ -37,6 +37,10 @@ export function ListOneOrder() {
   const formRef = useRef<FormHandles>(null)
   const [os, setOs] = useState<Props>()
 
+async function handle() {
+  console.log(os)
+}  
+
 
 async function handleSubmit(data: OsProps) {
   try {
@@ -88,8 +92,10 @@ async function handleSubmit(data: OsProps) {
             <h3>Faça a consulta da sua OS digital</h3>
             <Input name="numberOs" icon={AiOutlineFieldNumber} placeholder='Número OS'/>
             <Input name="cpf" icon={MdOutlineDocumentScanner} placeholder='CPF'/>
-            <Button type='submit' >Acessar</Button>
+            <Button type='submit' onSubmit={handle} >Acessar</Button>
           </Form>
+
+          
 
           {
           <UL className='UL'>
