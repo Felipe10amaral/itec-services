@@ -68,7 +68,7 @@ class UsersServices {
     const result = await compare(password, user.password)
     if (result) {
       const token = sign({ email: user.password, _id: user._id }, secretJWT, {
-        expiresIn: '1h',
+        expiresIn: '1d',
       })
       console.log(token)
 
