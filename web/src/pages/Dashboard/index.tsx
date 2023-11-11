@@ -38,7 +38,7 @@ const Dashboard: React.FC = () => {
   const {token} = useAuth()
 
   const handleSubmit = useCallback(async(data: CreateOS) => {
-    try {
+    
       formRef.current?.setErrors({})
     
       const schema = Yup.object().shape({
@@ -59,19 +59,27 @@ const Dashboard: React.FC = () => {
     await schema.validate(data, {
         abortEarly: false
     })
-    
-    await api.post('order',  data, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    history.push('/dashboard')
-    
-    } catch (err: any) {
-      const errors = getValidationError(err)
+    try {
+      await api.post('order',  data, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      window.alert("Nota de Serviço cadastrada com sucesso")
+      history.push('/dashboard')
+      
+    } catch (error: any) {
+      window.alert("Nota de Serviço não cadastrada")
+      const errors = getValidationError(error)
 
       formRef.current?.setErrors(errors)
+
+      
     }
+    
+    
+    
   },[history, token])
     const {username} = useAuth()
     return (
@@ -99,10 +107,9 @@ const Dashboard: React.FC = () => {
             <Nav>
               <ul>
                 <li> <Link className='link' to='signup'> Cadastrar usuário </Link></li>
-                <li> <Link className='link' to='/'> Editar usuário </Link> </li>
+                <li> <Link className='link' to='/editUser'> Editar usuário </Link> </li>
                 <li> <Link className='link' to='/editOrder'> Editar uma ordem de serviço </Link> </li>
                 <li> <Link className='link' to='/ListOrder' > Listar uma ordem de serviço </Link> </li>
-                <li> <Link className='link' to='/'> Editar ordem de serviço </Link></li>
                 <li> <Link className='link' to='/listAll'> Listar ordem de serviço pelo cpf do cliente</Link></li>
               </ul>
              </Nav>

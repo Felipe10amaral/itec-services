@@ -9,6 +9,7 @@ import { ListOrder } from '../pages/ListOrder'
 import {ListOneOrder} from '../pages/ListOneOrder'
 import EditOrder from '../pages/EditOrder'
 import { ListAll } from '../pages/ListAll'
+import EditUser from '../pages/EditUser'
 
 export function Routers() {
     return (
@@ -20,6 +21,7 @@ export function Routers() {
             <Route path='/listOneOrder' component={ListOneOrder} />
             <Route path='/editOrder' component={EditOrder} isPrivate />
             <Route path='/listAll' component={ListAll} isPrivate />
+            <Route path='/editUser' component={EditUser} isPrivate />
         </Switch>
     )
 }

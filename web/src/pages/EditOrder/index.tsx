@@ -65,13 +65,21 @@ const EditOrder: React.FC = () => {
       abortEarly: false
   })
 
-    const response = await api.get(`order/${data.numberOS}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
+    try {
+      const response = await api.get(`order/${data.numberOS}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+  
+      setFormData(response.data)
+      
+    } catch (error) {
 
-    setFormData(response.data)
+      window.alert("Ordem de Serviço não encontrada")
+      console.log(error)
+      
+    }
 
   },[token])
 
@@ -100,7 +108,7 @@ const EditOrder: React.FC = () => {
     })
 
     const params = data.numberOS
-    console.log(data.status)
+    console.log(data.model)
     
     try {
       await api.put(`order/${params}`, data ,{
@@ -137,7 +145,7 @@ const EditOrder: React.FC = () => {
                 <Input name="name" icon={FiUser} placeholder='Nome' defaultValue={formData.name}/>
                 <Input name="telefone" icon={BsTelephoneOutbound} defaultValue={formData.telefone} placeholder='Telefone'/>
                 <Input name="cpf" icon={MdOutlineDocumentScanner} defaultValue={formData.cpf} placeholder='CPF'/>
-                <Input name="model" icon={BsPhone} defaultValue={formData.name} placeholder='Modelo'/>
+                <Input name="model" icon={BsPhone} defaultValue={formData.model} placeholder='Modelo'/>
                 <Input name="password" icon={BsFillLockFill} defaultValue={formData.password} placeholder='Senha do cliente'/>
                 <Input name="repair" icon={FiTool} defaultValue={formData.repair} placeholder='Defeito'/>
                 <Input name="value" icon={FiDollarSign} defaultValue={formData.value} placeholder='Valor'/>
